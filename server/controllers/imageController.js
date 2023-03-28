@@ -72,11 +72,9 @@ export const renameImage = async (req, res) => {
 
 export const getImageList = async (req, res) => {
 
-	console.log('hit');
-
 	const list = await walk('./public/images');
 
-	console.log(list);
+	// console.log(list);
 
 	res.status(StatusCodes.OK).json({ imageList: list });
 

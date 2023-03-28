@@ -10,8 +10,8 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-
+      <main style={{padding: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%'}}>
+		<a href='/admin/editor' style={{fontSize: '40px'}}>Click here to open the editor</a>
       </main>
     </>
   )

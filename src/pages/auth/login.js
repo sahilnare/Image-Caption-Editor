@@ -1,6 +1,5 @@
 
 import Head from 'next/head';
-import SignIn from '../../views/auth/signin';
 
 
 export default function SignInPage() {
@@ -10,7 +9,9 @@ export default function SignInPage() {
 			<Head>
 				<title>Sign In</title>
 			</Head>
-			<SignIn />
+			<main>
+				<h1>Sign In</h1>
+			</main>
 		</>
 	);
 	

@@ -42,7 +42,7 @@ export default function EditorPage({ nextImage, prevImage, currentImage, imagesD
 
 	return (
 		<>
-			<ImageContainer imgSrc={currentImage ? `/images/${currentImage.fileRelative}` : ''} currentIndex={currentIndex} imgDone={imagesDone} imgTotal={images.length} />
+			<ImageContainer imgSrc={currentImage ? `/api/public/images/${currentImage.fileRelative}` : ''} currentIndex={currentIndex} imgDone={imagesDone} imgTotal={images.length} />
 					
 			<Box pt="30px" w="700px">
 				<CaptionForm handleSubmit={handleSubmit} currentImage={currentImage} />

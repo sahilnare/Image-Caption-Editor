@@ -9,7 +9,7 @@ import BadRequestError from '../errors/badRequest';
 const walk = async (dir) => {
 	var results = [];
 	
-	const list = await fs.promises.readdir(dir);
+	let list = await fs.promises.readdir(dir);
 
 	var pending = list.length;
 
@@ -18,7 +18,7 @@ const walk = async (dir) => {
 	for (const file of list) {
 		const fileN = path.resolve(dir, file);
 		const fileName = path.basename(fileN);
-		const folder = path.dirname(fileN);
+		const extension = path.extname(fileN);
 
 		const fileRelative = path.relative(
 			'/home/sahilnare78/Documents/Code_Base/Upwork/tomer/image_editor_ui/image-editor/public/images', 
@@ -26,6 +26,8 @@ const walk = async (dir) => {
 		);
 
 		const stat = await fs.promises.stat(fileN);
+
+		// console.log(stat);
 
 		if (stat && stat.isDirectory()) {
 
@@ -37,9 +39,10 @@ const walk = async (dir) => {
 
 		} else {
 			results.push({
-				folder,
 				fileName,
-				fileRelative
+				fileRelative,
+				extension,
+				birth: stat.birthtimeMs
 			});
 			if (!--pending) return results;
 		}
@@ -76,7 +79,11 @@ export const getImageList = async (req, res) => {
 
 	// console.log(list);
 
-	res.status(StatusCodes.OK).json({ imageList: list });
+	const sorted = list.sort((a, b) => a.birth - b.birth);
+
+	console.log(sorted);
+
+	res.status(StatusCodes.OK).json({ imageList: sorted });
 
 	// const list = await fs.promises.readdir('./public/');
 

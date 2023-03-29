@@ -14,10 +14,50 @@ export default function Editor() {
 	const [images, setImages] = useState([]);
 	const [imagesDone, setImagesDone] = useState(0);
 
+	const [doneArray, setImageDoneArray] = useState([]);
+
 	const [currentImage, setCurrentImage] = useState(null);
 	const [currentIndex, setCurrentIndex] = useState(null);
 
 	const [finished, setFinished] = useState(false);
+
+	const addImagesToState = async (init, newImages) => {
+
+		if (init) {
+
+			const allImages = await getImageList();
+
+			if (allImages) {
+
+				// console.log(allImages);
+				
+				setImages(allImages.imageList);
+
+				let ind = 0;
+
+				if (currentIndex) {
+
+					ind = currentIndex;
+
+				}
+
+				setCurrentIndex(ind);
+
+				setCurrentImage(allImages.imageList[ind]);
+
+			}
+
+			const arr = allImages.imageList.map(img => false);
+			console.log(arr);
+
+			setImageDoneArray(arr);
+
+		} else {
+
+			setImages(newImages);
+
+		}
+	}
 
 	const nextImage = () => {
 
@@ -47,38 +87,11 @@ export default function Editor() {
 
 	}
 
-	const doneUpdate = () => {
-
-		const doneFilter = images.filter(img => img.done);
-
-		setImagesDone(doneFilter.length);
-
-	}
-
 	useEffect(() => {
 
 		const asyncFetch = async () => {
 
-			const allImages = await getImageList();
-
-			if (allImages) {
-
-				// console.log(allImages);
-
-				const imageArray = allImages.imageList.map(img => {
-					const newImg = { ...img, done: false }
-					return newImg;
-				})
-				
-				setImages(imageArray);
-
-				const ind = 0;
-
-				setCurrentIndex(ind);
-
-				setCurrentImage(imageArray[ind]);
-
-			}
+			await addImagesToState(true);
 
 		};
 
@@ -89,8 +102,6 @@ export default function Editor() {
 	useEffect(() => {
 
 		setCurrentImage(images[currentIndex]);
-
-		doneUpdate();
 
 	}, [images])
 
@@ -125,8 +136,10 @@ export default function Editor() {
 								images={images} 
 								nextImage={nextImage} 
 								prevImage={prevImage}
-								setImages={setImages}
 								currentIndex={currentIndex}
+								addImagesToState={addImagesToState}
+								setImageDoneArray={setImageDoneArray}
+								doneArray={doneArray}
 							/>
 
 						)

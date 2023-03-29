@@ -47,10 +47,8 @@ export default function CaptionForm({ handleSubmit, currentImage }) {
 					h="50"
 					mb="24px"
 					type="submit"
-					isActive={currentImage?.done}
-					isDisabled={currentImage?.done}
 				>
-					{currentImage?.done ? 'Submitted' : 'Submit'}
+					{'Submit'}
 				</Button>
 			</FormControl>
 		</form>

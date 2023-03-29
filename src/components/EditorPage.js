@@ -7,7 +7,7 @@ import { renameImage } from '../utils/fetchData';
 import ImageContainer from './ImageContainer';
 import CaptionForm from './CaptionForm';
 
-export default function EditorPage({ nextImage, prevImage, currentImage, imagesDone, images, setImages, currentIndex }) {
+export default function EditorPage({ nextImage, prevImage, currentImage, images, setImageDoneArray, doneArray, currentIndex, addImagesToState }) {
 
 
 	const handleSubmit = async (caption) => {
@@ -16,21 +16,31 @@ export default function EditorPage({ nextImage, prevImage, currentImage, imagesD
 
 			const oldFileName = `./public/images/${currentImage.fileRelative}`;
 
-			const newFileName = oldFileName.replace(currentImage.fileName, `${caption}_${currentImage.fileName}`);
+			const fileNameWithExtension = `${caption}_${currentIndex + 1}${currentImage.extension}`;
+
+			const newFileName = oldFileName.replace(currentImage.fileName, fileNameWithExtension);
 
 			const result = await renameImage(oldFileName, newFileName);
 
-			const fileRelative = `${currentImage.fileRelative}`.replace(currentImage.fileName, `${caption}_${currentImage.fileName}`);
+			const fileRelative = currentImage.fileRelative.replace(currentImage.fileName, fileNameWithExtension);
 
 			// console.log(result);
 
 			const newImages = [
 				...images.slice(0, currentIndex),
-				{...currentImage, done: true, fileRelative }, 
+				{...currentImage, done: true, fileRelative, fileName: fileNameWithExtension }, 
 				...images.slice(currentIndex + 1)
 			];
 
-			setImages(newImages);
+			await addImagesToState(false, newImages);
+
+			const newDone = doneArray.map((done, i) => {
+				if (i === currentIndex) return true;
+
+				return done;
+			});
+
+			setImageDoneArray(newDone);
 
 		} else {
 
@@ -40,9 +50,11 @@ export default function EditorPage({ nextImage, prevImage, currentImage, imagesD
 
 	}
 
+	console.log(currentImage);
+
 	return (
 		<>
-			<ImageContainer imgSrc={currentImage ? `/api/public/images/${currentImage.fileRelative}` : ''} currentIndex={currentIndex} imgDone={imagesDone} imgTotal={images.length} />
+			<ImageContainer imgSrc={currentImage ? `/api/public/images/${currentImage.fileRelative}` : ''} currentIndex={currentIndex} doneArray={doneArray} imgTotal={images.length} />
 					
 			<Box pt="30px" w="700px">
 				<CaptionForm handleSubmit={handleSubmit} currentImage={currentImage} />

@@ -1,9 +1,9 @@
 
 
 
+import { useState } from 'react';
 
-
-import { Card, Image, CardBody, Stack, Heading, Divider, Text, Flex, Box } from '@chakra-ui/react';
+import { Card, Image, CardBody, Stack, Heading, Divider, Text, Flex, Box, Spinner } from '@chakra-ui/react';
 
 export default function ImageContainer({ imgSrc, doneArray, imgTotal, currentIndex }) {
 
@@ -11,15 +11,29 @@ export default function ImageContainer({ imgSrc, doneArray, imgTotal, currentInd
 
 	const isDone = doneArray[currentIndex];
 
+	const [imageLoaded, setimageLoaded] = useState(false);
+
 	return (
 		<Card maxW='3xl'>
 			<CardBody>
+				
+				{
+					imageLoaded ? null : (
+
+						<Spinner size='xl' color='red.700' />
+
+					)
+				}
+
 				<Image
 					src={imgSrc}
 					alt='Image'
 					borderRadius='lg'
+					display={imageLoaded ? 'block' : 'none'}
 					w="800px"
+					onLoad={() => setimageLoaded(true)}
 				/>
+				
 				<Stack mt='6' spacing='3'>
 					<Heading size='md'>{imgSrc}</Heading>
 					<Flex

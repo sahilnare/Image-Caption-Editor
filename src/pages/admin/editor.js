@@ -56,6 +56,8 @@ export default function Editor() {
 
 			setImages(newImages);
 
+			nextImage();
+
 		}
 	}
 

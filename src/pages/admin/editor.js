@@ -12,7 +12,6 @@ import Finished from '@/components/Finished';
 export default function Editor() {
 
 	const [images, setImages] = useState([]);
-	const [imagesDone, setImagesDone] = useState(0);
 
 	const [doneArray, setImageDoneArray] = useState([]);
 
@@ -51,6 +50,11 @@ export default function Editor() {
 			console.log(arr);
 
 			setImageDoneArray(arr);
+
+			allImages.imageList.forEach((picture) => {
+				const img = new Image();
+				img.src = `/api/public/images/${picture.fileRelative}`
+			});
 
 		} else {
 
@@ -122,9 +126,6 @@ export default function Editor() {
 					pt="40px"
 				>
 
-					
-					
-
 					{
 						finished ? (
 
@@ -134,7 +135,6 @@ export default function Editor() {
 							
 							<EditorPage 
 								currentImage={currentImage} 
-								imagesDone={imagesDone} 
 								images={images} 
 								nextImage={nextImage} 
 								prevImage={prevImage}

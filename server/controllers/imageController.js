@@ -81,7 +81,7 @@ export const getImageList = async (req, res) => {
 
 	const sorted = list.sort((a, b) => a.birth - b.birth);
 
-	console.log(sorted);
+	// console.log(sorted);
 
 	res.status(StatusCodes.OK).json({ imageList: sorted });
 

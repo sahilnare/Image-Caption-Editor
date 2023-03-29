@@ -13,10 +13,16 @@ export default function ImageContainer({ imgSrc, doneArray, imgTotal, currentInd
 
 	const [imageLoaded, setimageLoaded] = useState(false);
 
+	useEffect(() => {
+
+		setimageLoaded(false);
+
+	}, [imgSrc]);
+
 	return (
 		<Card maxW='3xl'>
 			<CardBody>
-				
+
 				{
 					imageLoaded ? null : (
 

@@ -1,7 +1,7 @@
 
 
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Card, Image, CardBody, Stack, Heading, Divider, Text, Flex, Box, Spinner } from '@chakra-ui/react';
 

@@ -105,7 +105,7 @@ export default function Editor() {
 
 		setCurrentImage(images[currentIndex]);
 
-	}, [images])
+	}, [images]);
 
 	return (
 		<>

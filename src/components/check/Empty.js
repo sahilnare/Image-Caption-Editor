@@ -9,7 +9,7 @@ export default function Empty() {
 		<>
 					
 			<Box pt="30px" w="700px">
-				<Text fontSize="xl" fontWeight="bold" >No Images</Text>
+				<Text fontSize="xl" fontWeight="bold" >ALL DONE, THANK YOU!</Text>
 			</Box>
 		</>
 	)

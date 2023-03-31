@@ -6,9 +6,8 @@ import { Flex } from '@chakra-ui/react';
 import { getImageList } from '../../../utils/fetchData';
 
 
-import EditorPage from '../../../components/editor/EditorPage';
-import Empty from '../../../components/editor/Empty';
-import AllDone from '@/components/editor/AllDone';
+import CheckPage from '../../../components/check/CheckPage';
+import Empty from '../../../components/check/Empty';
 
 
 export default function Editor() {
@@ -19,14 +18,10 @@ export default function Editor() {
 
 	const [images, setImages] = useState([]);
 
-	const [doneArray, setImageDoneArray] = useState([]);
-
 	const [currentImage, setCurrentImage] = useState(null);
 	const [currentIndex, setCurrentIndex] = useState(null);
 
 	const [empty, setEmpty] = useState(false);
-
-	const imagesDone = doneArray.filter(done => done);
 
 	const addImagesToState = async (init, newImages) => {
 
@@ -60,11 +55,6 @@ export default function Editor() {
 	
 						setCurrentImage(allImages.imageList[ind]);
 	
-						const arr = allImages.imageList.map(img => false);
-						// console.log(arr);
-	
-						setImageDoneArray(arr);
-	
 						allImages.imageList.forEach((picture) => {
 							const img = new Image();
 							img.src = `/api/public/images/${picture.fileRelative}`;
@@ -84,7 +74,7 @@ export default function Editor() {
 
 			setImages(newImages);
 
-			nextImage();
+			// nextImage();
 
 		}
 	}
@@ -131,7 +121,21 @@ export default function Editor() {
 
 	useEffect(() => {
 
-		setCurrentImage(images[currentIndex]);
+		if (images.length < 1) {
+
+			setEmpty(true);
+
+		}
+
+		if (currentIndex >= images.length) {
+
+			prevImage();
+
+		} else {
+
+			setCurrentImage(images[currentIndex]);
+
+		}
 
 	}, [images]);
 
@@ -155,21 +159,15 @@ export default function Editor() {
 
 							<Empty />
 
-						) : imagesDone.length === images.length ? (
-
-							<AllDone />
-
 						) : (
 							
-							<EditorPage 
+							<CheckPage 
 								currentImage={currentImage} 
 								images={images} 
 								nextImage={nextImage} 
 								prevImage={prevImage}
 								currentIndex={currentIndex}
 								addImagesToState={addImagesToState}
-								setImageDoneArray={setImageDoneArray}
-								doneArray={doneArray}
 							/>
 
 						)

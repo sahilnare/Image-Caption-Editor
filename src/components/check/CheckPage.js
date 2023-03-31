@@ -30,7 +30,7 @@ export default function CheckPage({ nextImage, prevImage, currentImage, images, 
 
 	}
 
-	console.log(currentImage);
+	// console.log(currentImage);
 
 	return (
 		<>

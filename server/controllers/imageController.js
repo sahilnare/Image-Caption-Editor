@@ -77,7 +77,7 @@ export const getImageList = async (req, res) => {
 
 	const { folder } = req.query;
 
-	console.log(folder);
+	// console.log(folder);
 
 	if (folder) {
 

@@ -35,7 +35,7 @@ export default function handler(req, res) {
 			const type = mime[path.extname(file).slice(1)] || 'text/plain';
 			const s = fs.createReadStream(file);
 
-			console.log(path.extname(file).slice(1));
+			// console.log(path.extname(file).slice(1));
 
 			s.on('open', function () {
 				res.setHeader('Content-Type', type);

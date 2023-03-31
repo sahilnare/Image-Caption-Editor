@@ -1,4 +1,5 @@
 
+import { useEffect, useState } from 'react';
 
 import { Box, Button, SimpleGrid } from '@chakra-ui/react';
 
@@ -8,6 +9,43 @@ import ImageContainer from './ImageContainer';
 import CaptionForm from './CaptionForm';
 
 export default function CheckPage({ nextImage, prevImage, currentImage, images, currentIndex, addImagesToState }) {
+
+	// const handleKeyDown = async (e) => {
+
+	// 	if (e.keyCode === 46 && !e.repeat) {
+
+	// 		// console.log('delete');
+	// 		await handleSubmit();
+
+	// 	}
+		
+	// }
+
+	// const handleClick = (e) => {
+
+	// 	// console.log('click');
+	// 	prevImage();
+		
+	// }
+
+	// useEffect(() => {
+
+	// 	document.addEventListener('keydown', handleKeyDown);
+	// 	document.addEventListener('click', handleClick);
+
+	// 	window.oncontextmenu = () => {
+	// 		// showCustomMenu();
+	// 		// console.log('click');
+	// 		nextImage();
+	// 		return false;
+	// 	}
+
+	// 	return () => {
+	// 		document.body.removeEventListener('keydown', handleKeyDown);
+	// 		document.body.removeEventListener('click', handleClick);
+	// 	}
+
+	// }, [currentImage]);
 
 
 	const handleSubmit = async () => {

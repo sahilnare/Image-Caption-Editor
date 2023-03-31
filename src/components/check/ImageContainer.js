@@ -32,7 +32,7 @@ export default function ImageContainer({ imgSrc, imgTotal, currentIndex }) {
 					alt='Image'
 					borderRadius='lg'
 					display={imageLoaded ? 'block' : 'none'}
-					w="800px"
+					w="512px"
 					onLoad={() => setimageLoaded(true)}
 				/>
 				

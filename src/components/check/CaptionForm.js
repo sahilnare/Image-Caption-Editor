@@ -1,8 +1,8 @@
 
 import { FormControl, Input, Button } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
 
 export default function CaptionForm({ handleSubmit }) {
+
 
 	return (
 		<form onSubmit={async (e) => {

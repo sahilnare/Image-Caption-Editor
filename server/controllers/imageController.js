@@ -75,41 +75,33 @@ export const renameImage = async (req, res) => {
 
 export const getImageList = async (req, res) => {
 
-	const list = await walk('./public/images');
+	const { folder } = req.query;
 
-	// console.log(list);
+	console.log(folder);
 
-	const sorted = list.sort((a, b) => a.birth - b.birth);
+	if (folder) {
 
-	// console.log(sorted);
+		const list = await walk(`./public/images/${folder}`);
 
-	res.status(StatusCodes.OK).json({ imageList: sorted });
+		// console.log(list);
 
-	// const list = await fs.promises.readdir('./public/');
+		const sorted = list.sort((a, b) => a.birth - b.birth);
 
-	// res.status(StatusCodes.OK).json({ imageList: list });
+		// console.log(sorted);
 
-	
+		res.status(StatusCodes.OK).json({ imageList: sorted });
+
+	} else {
+
+		res.status(StatusCodes.OK).json({ imageList: [] });
+
+	}
 
 };
 
 
 
-export const getAllOrders = async (req, res) => {
-
-	// const { user_id } = req.session.user;
-
-	// if (!user_id) {
-
-	// 	throw new BadRequestError('No user id provided');
-
-	// }
-
-	// if (!req.session.user) {
-
-	// 	throw new UnAuthenticatedError('Cannot verify user');
-
-	// }
+export const test = async (req, res) => {
 
 
 	res.status(StatusCodes.CREATED).json({ data: rows });

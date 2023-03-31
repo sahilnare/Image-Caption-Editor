@@ -22,11 +22,11 @@ export const renameImage = async (oldPath, newPath) => {
 
 };
 
-export const getImageList = async (oldPath, newPath) => {
+export const getImageList = async (folder) => {
 
 	try {
 
-		const result = await axios.get(`/api/v1/images/images`);
+		const result = await axios.get(`/api/v1/images/images?folder=${folder}`);
 
 		return result.data;
 		

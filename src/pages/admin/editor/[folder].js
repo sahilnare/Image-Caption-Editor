@@ -1,15 +1,20 @@
 
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { Flex, Box, Button } from '@chakra-ui/react';
-import { getImageList } from '../../utils/fetchData';
+import { getImageList } from '../../../utils/fetchData';
 
 
-import EditorPage from '../../components/EditorPage';
-import Finished from '@/components/Finished';
+import EditorPage from '../../../components/editor/EditorPage';
+import Empty from '../../../components/editor/Empty';
 
 
 export default function Editor() {
+
+	const router = useRouter();
+	
+	const { folder } = router.query;
 
 	const [images, setImages] = useState([]);
 
@@ -18,43 +23,59 @@ export default function Editor() {
 	const [currentImage, setCurrentImage] = useState(null);
 	const [currentIndex, setCurrentIndex] = useState(null);
 
-	const [finished, setFinished] = useState(false);
+	const [empty, setEmpty] = useState(false);
 
 	const addImagesToState = async (init, newImages) => {
 
 		if (init) {
 
-			const allImages = await getImageList();
+			// console.log(folder);
 
-			if (allImages) {
+			if (folder) {
 
-				// console.log(allImages);
-				
-				setImages(allImages.imageList);
+				const allImages = await getImageList(folder);
 
-				let ind = 0;
+				if (allImages) {
 
-				if (currentIndex) {
-
-					ind = currentIndex;
-
-				}
-
-				setCurrentIndex(ind);
-
-				setCurrentImage(allImages.imageList[ind]);
+					console.log(allImages);
+	
+					if (allImages.imageList.length > 0) {
+	
+						setEmpty(false);
+	
+						setImages(allImages.imageList);
+	
+						let ind = 0;
+	
+						if (currentIndex) {
+	
+							ind = currentIndex;
+	
+						}
+	
+						setCurrentIndex(ind);
+	
+						setCurrentImage(allImages.imageList[ind]);
+	
+						const arr = allImages.imageList.map(img => false);
+						// console.log(arr);
+	
+						setImageDoneArray(arr);
+	
+						allImages.imageList.forEach((picture) => {
+							const img = new Image();
+							img.src = `/api/public/images/${picture.fileRelative}`;
+						});
+	
+					} else {
+	
+						setEmpty(true);
+	
+					}
+	
+				} 
 
 			}
-
-			const arr = allImages.imageList.map(img => false);
-			console.log(arr);
-
-			setImageDoneArray(arr);
-
-			allImages.imageList.forEach((picture) => {
-				const img = new Image();
-				img.src = `/api/public/images/${picture.fileRelative}`
-			});
 
 		} else {
 
@@ -103,7 +124,7 @@ export default function Editor() {
 
 		asyncFetch();
 
-	}, []);
+	}, [folder]);
 
 	useEffect(() => {
 
@@ -127,9 +148,9 @@ export default function Editor() {
 				>
 
 					{
-						finished ? (
+						empty ? (
 
-							<Finished />
+							<Empty />
 
 						) : (
 							

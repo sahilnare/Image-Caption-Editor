@@ -2,7 +2,7 @@
 
 import { Box, Button, SimpleGrid } from '@chakra-ui/react';
 
-import { renameImage } from '../utils/fetchData';
+import { renameImage } from '../../utils/fetchData';
 
 import ImageContainer from './ImageContainer';
 import CaptionForm from './CaptionForm';

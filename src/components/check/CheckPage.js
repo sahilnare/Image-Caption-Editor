@@ -10,16 +10,23 @@ import CaptionForm from './CaptionForm';
 
 export default function CheckPage({ nextImage, prevImage, currentImage, images, currentIndex, addImagesToState }) {
 
-	// const handleKeyDown = async (e) => {
+	const handleKeyDown = async (e) => {
 
-	// 	if (e.keyCode === 46 && !e.repeat) {
+		if (e.keyCode === 37) {
 
-	// 		// console.log('delete');
-	// 		await handleSubmit();
+			// console.log('delete');
+			prevImage();
 
-	// 	}
+		}
+
+		if (e.keyCode === 39) {
+
+			// console.log('delete');
+			nextImage();
+
+		}
 		
-	// }
+	}
 
 	// const handleClick = (e) => {
 
@@ -28,24 +35,16 @@ export default function CheckPage({ nextImage, prevImage, currentImage, images, 
 		
 	// }
 
-	// useEffect(() => {
+	useEffect(() => {
 
-	// 	document.addEventListener('keydown', handleKeyDown);
-	// 	document.addEventListener('click', handleClick);
+		document.addEventListener('keydown', handleKeyDown);
 
-	// 	window.oncontextmenu = () => {
-	// 		// showCustomMenu();
-	// 		// console.log('click');
-	// 		nextImage();
-	// 		return false;
-	// 	}
 
-	// 	return () => {
-	// 		document.body.removeEventListener('keydown', handleKeyDown);
-	// 		document.body.removeEventListener('click', handleClick);
-	// 	}
+		return () => {
+			document.body.removeEventListener('keydown', handleKeyDown);
+		}
 
-	// }, [currentImage]);
+	}, [currentImage]);
 
 
 	const handleSubmit = async () => {

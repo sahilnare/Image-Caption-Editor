@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Flex } from '@chakra-ui/react';
@@ -22,6 +22,11 @@ export default function Editor() {
 	const [currentIndex, setCurrentIndex] = useState(null);
 
 	const [empty, setEmpty] = useState(false);
+
+	// const [shouldKeyBeDown, setShouldKeyBeDown] = useState(false);
+	const [isSetClickListener, setIsSetClickListener] = useState(false);
+
+	let shouldKeyBeDown;
 
 	const addImagesToState = async (init, newImages) => {
 
@@ -107,6 +112,59 @@ export default function Editor() {
 
 	}
 
+
+	const handleKeyDown = useCallback((e) => {
+
+		if (shouldKeyBeDown) return;
+
+		if (e.keyCode === 37) {
+
+			// console.log('down');
+			shouldKeyBeDown = true;
+
+			prevImage();
+
+		}
+
+		if (e.keyCode === 39) {
+
+			// console.log('down');
+
+			shouldKeyBeDown = true
+
+			nextImage();
+
+		}
+
+		// shouldKeyBeDown = false;
+		
+		
+	}, [nextImage, prevImage])
+
+	const handleKeyUp = useCallback((e) => {
+
+		// shouldKeyBeDown = true;
+		
+
+		if (e.keyCode === 37) {
+
+			// console.log('up');
+
+			shouldKeyBeDown = false;
+
+		}
+
+		if (e.keyCode === 39) {
+
+			// console.log('up');
+
+			shouldKeyBeDown = false;
+
+		}
+
+
+	}, [nextImage, prevImage])
+
 	useEffect(() => {
 
 		const asyncFetch = async () => {
@@ -139,6 +197,8 @@ export default function Editor() {
 
 	}, [images]);
 
+
+
 	
 
 	return (
@@ -146,7 +206,7 @@ export default function Editor() {
 			<Head>
 				<title>Edit Captions</title>
 			</Head>
-			<main>
+			<main onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} tabIndex="-1">
 				
 
 				<Flex 

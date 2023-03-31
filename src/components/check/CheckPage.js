@@ -10,43 +10,6 @@ import CaptionForm from './CaptionForm';
 
 export default function CheckPage({ nextImage, prevImage, currentImage, images, currentIndex, addImagesToState }) {
 
-	const handleKeyDown = async (e) => {
-
-		if (e.keyCode === 37) {
-
-			// console.log('delete');
-			prevImage();
-
-		}
-
-		if (e.keyCode === 39) {
-
-			// console.log('delete');
-			nextImage();
-
-		}
-		
-	}
-
-	// const handleClick = (e) => {
-
-	// 	// console.log('click');
-	// 	prevImage();
-		
-	// }
-
-	useEffect(() => {
-
-		document.addEventListener('keydown', handleKeyDown);
-
-
-		return () => {
-			document.body.removeEventListener('keydown', handleKeyDown);
-		}
-
-	}, [currentImage]);
-
-
 	const handleSubmit = async () => {
 
 		const oldFileName = `./public/images/${currentImage.fileRelative}`;

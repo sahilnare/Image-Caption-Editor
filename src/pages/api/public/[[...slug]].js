@@ -1,6 +1,7 @@
 
 import fs from "fs";
 import path from 'path';
+import sharp from 'sharp';
 
 const mime = {
     html: 'text/html',
@@ -35,12 +36,30 @@ export default function handler(req, res) {
 			const type = mime[path.extname(file).slice(1)] || 'text/plain';
 			const s = fs.createReadStream(file);
 
+
 			// console.log(path.extname(file).slice(1));
 
-			s.on('open', function () {
+			const newchunks = [];
+			s.on('data', (chunk) => {
+
+				newchunks.push(chunk);
+
+			}).on('end', () => {
+
+				const compressedBuffer = sharp(Buffer.concat(newchunks)).jpeg({ quality: 40, mozjpeg: true });
+				// console.log(compressedBuffer);
+
 				res.setHeader('Content-Type', type);
-				s.pipe(res);
+				s.pipe(compressedBuffer).pipe(res);
+
+
 			});
+
+			// s.on('open', function () {
+			// 	res.setHeader('Content-Type', type);
+			// 	s.pipe(res);
+			// });
+
 			s.on('error', function () {
 				res.setHeader('Content-Type', 'text/plain');
 				res.status(404).end('Not found');

@@ -63,7 +63,7 @@ export default function Editor() {
 						setCurrentImage(allImages.imageList[ind]);
 
 						// # Creating chunks of 20 images
-						const chunkSize = 2;
+						const chunkSize = 15;
 						for (let j = 0; j < allImages.imageList.length; j += chunkSize) {
 
 							const chunk = allImages.imageList.slice(j, j + chunkSize);

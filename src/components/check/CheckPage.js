@@ -10,7 +10,7 @@ import CaptionForm from './CaptionForm';
 
 export default function CheckPage({ nextImage, prevImage, currentImage, images, currentIndex, addImagesToState }) {
 
-	const handleSubmit = async () => {
+	const handleDelete = async () => {
 
 		const oldFileName = `./public/images/${currentImage.fileRelative}`;
 
@@ -30,14 +30,54 @@ export default function CheckPage({ nextImage, prevImage, currentImage, images, 
 
 	}
 
+	const handleSubmit = async (caption) => {
+
+		if (caption.length > 1) {
+
+			const oldFileName = `./public/images/${currentImage.fileRelative}`;
+
+			const fileNameWithExtension = `${caption}_${currentIndex + 1}${currentImage.extension}`;
+
+			const newFileName = oldFileName.replace(currentImage.fileName, fileNameWithExtension);
+
+			const result = await renameImage(oldFileName, newFileName);
+
+			const fileRelative = currentImage.fileRelative.replace(currentImage.fileName, fileNameWithExtension);
+
+			// console.log(result);
+
+			const newImages = [
+				...images.slice(0, currentIndex),
+				{...currentImage, done: true, fileRelative, fileName: fileNameWithExtension }, 
+				...images.slice(currentIndex + 1)
+			];
+
+			await addImagesToState(false, newImages);
+
+			// const newDone = doneArray.map((done, i) => {
+			// 	if (i === currentIndex) return true;
+
+			// 	return done;
+			// });
+
+			// setImageDoneArray(newDone);
+
+		} else {
+
+			// No changes made
+
+		}
+
+	}
+
 	// console.log(currentImage);
 
 	return (
 		<>
-			<ImageContainer imgSrc={currentImage ? `/api/public/images/${currentImage.fileRelative}` : ''} currentIndex={currentIndex} imgTotal={images.length} />
+			<ImageContainer imgSrc={currentImage ? `/api/public/images/${currentImage.fileRelative}` : ''} imgText={currentImage ? `${currentImage.fileName}` : ''} currentIndex={currentIndex} imgTotal={images.length} />
 					
 			<Box pt="30px" w="700px">
-				<CaptionForm handleSubmit={handleSubmit} currentImage={currentImage} />
+				<CaptionForm handleDelete={handleDelete} handleSubmit={handleSubmit} currentImage={currentImage} />
 
 				<SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
 					<Button

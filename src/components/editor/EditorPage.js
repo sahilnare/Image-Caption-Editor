@@ -50,7 +50,7 @@ export default function EditorPage({ nextImage, prevImage, currentImage, images,
 
 	}
 
-	console.log(currentImage);
+	// console.log(currentImage);
 
 	return (
 		<>

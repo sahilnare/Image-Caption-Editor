@@ -85,7 +85,7 @@ export default function Editor() {
 										// console.log(picture.fileRelative);
 									});
 
-								}, 3000 * ind);
+								}, 10000 * ind);
 
 							})(k);
 

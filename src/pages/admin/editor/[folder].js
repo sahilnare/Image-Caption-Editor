@@ -28,6 +28,7 @@ export default function Editor() {
 
 	const imagesDone = doneArray.filter(done => done);
 
+
 	const addImagesToState = async (init, newImages) => {
 
 		if (init) {
@@ -37,6 +38,8 @@ export default function Editor() {
 			if (folder) {
 
 				const allImages = await getImageList(folder);
+
+				const chuckContainer = [];
 
 				if (allImages) {
 
@@ -64,11 +67,40 @@ export default function Editor() {
 						// console.log(arr);
 	
 						setImageDoneArray(arr);
-	
-						allImages.imageList.forEach((picture) => {
-							const img = new Image();
-							img.src = `/api/public/images/${picture.fileRelative}`;
-						});
+						
+						// # Creating chunks of 20 images
+						const chunkSize = 15;
+						for (let j = 0; j < allImages.imageList.length; j += chunkSize) {
+
+							const chunk = allImages.imageList.slice(j, j + chunkSize);
+							chuckContainer.push(chunk);
+							
+						}
+
+						// # Loading images in sets of 20 with timeouts
+						for (let k=0; k < chuckContainer.length; k++) {
+
+							(function(ind) {
+
+								setTimeout(() => {
+									// console.log(ind);
+
+									chuckContainer[ind].forEach((picture) => {
+										const img = new Image();
+										img.src = `/api/public/images/${picture.fileRelative}`;
+										// console.log(picture.fileRelative);
+									});
+
+								}, 3000 * ind);
+
+							})(k);
+
+						 }
+
+						// allImages.imageList.forEach((picture) => {
+						// 	const img = new Image();
+						// 	img.src = `/api/public/images/${picture.fileRelative}`;
+						// });
 	
 					} else {
 	
